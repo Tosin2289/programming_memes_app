@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
@@ -37,18 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "Programming memes",
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
+      appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+        centerTitle: true,
+        title: const Text(
+          "Programming memes",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+        child: Expanded(
           child: SizedBox(
             child: FutureBuilder(
               future: getmeme(),
@@ -83,35 +85,57 @@ class _MyHomePageState extends State<MyHomePage> {
                         getmeme();
                       });
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 10),
-                      child: PageView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: ((context, index) {
-                            return Container(
-                              height: 400,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage(
-                                        snapshot.data[index].image)),
-                                color: Colors.white60,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Image.network(
-                                snapshot.data[index].image,
-                                fit: BoxFit.contain,
-                              ),
-                            );
-                          })),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 10),
+                            child: CardSwiper(
+                                numberOfCardsDisplayed: 3,
+                                padding: const EdgeInsets.all(24.0),
+                                backCardOffset: const Offset(40, 40),
+                                cardsCount: snapshot.data.length,
+                                cardBuilder: ((
+                                  context,
+                                  index,
+                                  horizontalThresholdPercentage,
+                                  verticalThresholdPercentage,
+                                ) {
+                                  return Container(
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              snapshot.data[index].image)),
+                                      color: Colors.grey.shade100,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Image.network(
+                                      snapshot.data[index].image,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  );
+                                })),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }
               }),
             ),
           ),
-        ));
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              getmeme();
+            });
+          },
+          child: Icon(Icons.refresh)),
+    );
   }
 }
 

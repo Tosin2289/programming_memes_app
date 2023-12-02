@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memes_app/pages/homepage.dart';
+import 'package:memes_app/pages/swiper.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,8 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true),
       home: MyHomePage(),
     );
   }
