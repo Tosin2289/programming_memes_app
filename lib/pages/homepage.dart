@@ -103,12 +103,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   verticalThresholdPercentage,
                                 ) {
                                   return Container(
-                                    height: 200,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: NetworkImage(
                                               snapshot.data[index].image)),
-                                      color: Colors.grey.shade100,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Image.network(
